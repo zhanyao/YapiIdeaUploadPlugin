@@ -1,6 +1,5 @@
 package com.qbb.build;
 
-import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.intellij.notification.*;
@@ -17,6 +16,7 @@ import com.intellij.psi.util.PsiTypesUtil;
 import com.intellij.psi.util.PsiUtil;
 import com.qbb.dto.YapiDubboDTO;
 import com.qbb.util.DesUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONException;
 
 import java.util.*;
@@ -47,7 +47,7 @@ public class BuildJsonForDubbo{
         PsiFile psiFile = (PsiFile) e.getDataContext().getData(CommonDataKeys.PSI_FILE);
         String selectedText=e.getRequiredData(CommonDataKeys.EDITOR).getSelectionModel().getSelectedText();
         Project project = editor.getProject();
-        if(Strings.isNullOrEmpty(selectedText)){
+        if(StringUtils.isNotBlank(selectedText)){
             Notification error = notificationGroup.createNotification("please select method or class", NotificationType.ERROR);
             Notifications.Bus.notify(error, project);
             return null;

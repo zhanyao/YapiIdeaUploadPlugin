@@ -1,11 +1,11 @@
 package com.qbb.upload;
 
-import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.qbb.constant.YapiConstant;
 import com.qbb.dto.*;
 import com.qbb.util.HttpClientUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -37,7 +37,7 @@ public class UploadYapi {
      * @date: 2019/5/15
      */ 
     public YapiResponse  uploadSave(YapiSaveParam yapiSaveParam,String attachUpload,String path) throws IOException {
-        if(Strings.isNullOrEmpty(yapiSaveParam.getTitle())){
+        if(StringUtils.isNotBlank(yapiSaveParam.getTitle())){
             yapiSaveParam.setTitle(yapiSaveParam.getPath());
         }
         YapiHeaderDTO yapiHeaderDTO=new YapiHeaderDTO();
@@ -128,7 +128,7 @@ public class UploadYapi {
             YapiResponse yapiResponse=gson.fromJson(response,YapiResponse.class);
             if(yapiResponse.getErrcode()==0) {
                 YapiInterfaceResponse yapiInterfaceResponse=gson.fromJson(gson.toJson(yapiResponse.getData()),YapiInterfaceResponse.class);
-                if(!Strings.isNullOrEmpty(yapiInterfaceResponse.getDesc())){
+                if(!StringUtils.isNotBlank(yapiInterfaceResponse.getDesc())){
                     //如果原来描述不为空，那么就将当前描述+上一个版本描述的自定义部分
                     if(yapiInterfaceResponse.getDesc().contains("java类")){
                         yapiSaveParam.setDesc(yapiInterfaceResponse.getDesc().substring(0,yapiInterfaceResponse.getDesc().indexOf("java类"))+yapiSaveParam.getDesc()+yapiInterfaceResponse.getDesc().substring(yapiInterfaceResponse.getDesc().indexOf("</pre>"),yapiInterfaceResponse.getDesc().length()));
@@ -154,7 +154,7 @@ public class UploadYapi {
      */ 
     public YapiResponse getCatIdOrCreate(YapiSaveParam yapiSaveParam){
         // 如果缓存不存在，切自定义菜单为空，则使用默认目录
-        if(Strings.isNullOrEmpty(yapiSaveParam.getMenu())){
+        if(StringUtils.isNotBlank(yapiSaveParam.getMenu())){
             yapiSaveParam.setMenu(YapiConstant.menu);
         }
         String response= null;
@@ -171,7 +171,7 @@ public class UploadYapi {
                 Integer parent_id=-1;
                 Integer now_id=null;
                 for(int i=0;i<menus.length;i++){
-                    if(Strings.isNullOrEmpty(menus[i])){
+                    if(StringUtils.isNotBlank(menus[i])){
                         continue;
                     }
                     boolean needAdd=true;

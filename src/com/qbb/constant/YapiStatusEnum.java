@@ -1,6 +1,6 @@
 package com.qbb.constant;
 
-import com.google.common.base.Strings;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * @description: 接口状态
@@ -39,7 +39,7 @@ public enum YapiStatusEnum {
     }
 
     public static String getStatus(String message){
-        if(Strings.isNullOrEmpty(message)){
+        if(StringUtils.isNotBlank(message)){
             return undone.name();
         }
         if(message.equals(done.getMessage()) || message.equals(done.name())){

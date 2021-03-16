@@ -1,8 +1,5 @@
 package com.qbb.interaction;
 
-import com.google.common.base.Strings;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationDisplayType;
 import com.intellij.notification.NotificationGroup;
@@ -23,6 +20,7 @@ import com.qbb.dto.YapiDubboDTO;
 import com.qbb.dto.YapiResponse;
 import com.qbb.dto.YapiSaveParam;
 import com.qbb.upload.UploadYapi;
+import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -97,7 +95,7 @@ public class UploadToYapi extends AnAction {
             return;
         }
         // 配置校验
-        if (Strings.isNullOrEmpty(projectToken) || Strings.isNullOrEmpty(projectId) || Strings.isNullOrEmpty(yapiUrl) || Strings.isNullOrEmpty(projectType)) {
+        if (StringUtils.isNotBlank(projectToken) || StringUtils.isNotBlank(projectId) || StringUtils.isNotBlank(yapiUrl) || StringUtils.isNotBlank(projectType)) {
             Notification error = notificationGroup.createNotification("please check config,[projectToken,projectId,yapiUrl,projectType]", NotificationType.ERROR);
             Notifications.Bus.notify(error, project);
             return;
@@ -110,7 +108,7 @@ public class UploadToYapi extends AnAction {
                 for (YapiDubboDTO yapiDubboDTO : yapiDubboDTOs) {
                     YapiSaveParam yapiSaveParam = new YapiSaveParam(projectToken, yapiDubboDTO.getTitle(), yapiDubboDTO.getPath(), yapiDubboDTO.getParams(), yapiDubboDTO.getResponse(), Integer.valueOf(projectId), yapiUrl, yapiDubboDTO.getDesc());
                     yapiSaveParam.setStatus(yapiDubboDTO.getStatus());
-                    if (!Strings.isNullOrEmpty(yapiDubboDTO.getMenu())) {
+                    if (!StringUtils.isNotBlank(yapiDubboDTO.getMenu())) {
                         yapiSaveParam.setMenu(yapiDubboDTO.getMenu());
                     } else {
                         yapiSaveParam.setMenu(YapiConstant.menu);
@@ -143,7 +141,7 @@ public class UploadToYapi extends AnAction {
                     yapiSaveParam.setReq_body_type(yapiApiDTO.getReq_body_type());
                     yapiSaveParam.setReq_params(yapiApiDTO.getReq_params());
                     yapiSaveParam.setStatus(yapiApiDTO.getStatus());
-                    if (!Strings.isNullOrEmpty(yapiApiDTO.getMenu())) {
+                    if (!StringUtils.isNotBlank(yapiApiDTO.getMenu())) {
                         yapiSaveParam.setMenu(yapiApiDTO.getMenu());
                     } else {
                         yapiSaveParam.setMenu(YapiConstant.menu);

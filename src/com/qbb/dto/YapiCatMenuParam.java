@@ -1,7 +1,7 @@
 package com.qbb.dto;
 
-import com.google.common.base.Strings;
 import com.qbb.constant.YapiConstant;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -94,7 +94,7 @@ public class YapiCatMenuParam implements Serializable {
         this.name = name;
         this.project_id = project_id;
         this.token = token;
-        if(Strings.isNullOrEmpty(name)){
+        if(StringUtils.isNotBlank(name)){
             this.name= YapiConstant.menu;
         }
     }

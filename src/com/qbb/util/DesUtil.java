@@ -1,6 +1,5 @@
 package com.qbb.util;
 
-import com.google.common.base.Strings;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.JavaPsiFacade;
 import com.intellij.psi.PsiClass;
@@ -12,6 +11,7 @@ import com.intellij.psi.javadoc.PsiDocComment;
 import com.intellij.psi.javadoc.PsiDocTag;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.qbb.constant.YapiStatusEnum;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ public class DesUtil {
         boolean beginIndexFlag = true;
         boolean endIndexFlag = true;
         do {
-            if(Strings.isNullOrEmpty(source.trim()) || source.equals(String.valueOf(element))){
+            if(StringUtils.isNotBlank(source.trim()) || source.equals(String.valueOf(element))){
                 source="";
                 break;
             }
@@ -105,7 +105,7 @@ public class DesUtil {
     public static String getFiledDesc(PsiDocComment psiDocComment){
         if(Objects.nonNull(psiDocComment)) {
             String fileText = psiDocComment.getText();
-            if (!Strings.isNullOrEmpty(fileText)) {
+            if (!StringUtils.isNotBlank(fileText)) {
                 return trimFirstAndLastChar(fileText.replace("*", "").replace("/", "").replace(" ", "").replace("\n", ",").replace("\t", ""), ',').split("\\{@link")[0];
             }
         }
@@ -119,7 +119,7 @@ public class DesUtil {
      * @date: 2019/5/18
      */ 
     public static String getUrlReFerenceRDesc(String text){
-        if(Strings.isNullOrEmpty(text)){
+        if(StringUtils.isNotBlank(text)){
             return text;
         }
         if(!text.contains("*/")){
@@ -136,7 +136,7 @@ public class DesUtil {
      * @date: 2019/5/18
      */
     public static String getMenu(String text) {
-        if (Strings.isNullOrEmpty(text) || !text.contains("*/")) {
+        if (StringUtils.isNotBlank(text) || !text.contains("*/")) {
             return null;
         }
         String[] menuList = text.split("\\*/")[0].split("@menu");
@@ -153,7 +153,7 @@ public class DesUtil {
      * @return
      */
     public static String getPath(String text){
-        if (Strings.isNullOrEmpty(text) || !text.contains("*/")) {
+        if (StringUtils.isNotBlank(text) || !text.contains("*/")) {
             return null;
         }
         String[] menuList = text.split("\\*/")[0].split("@path");
@@ -172,7 +172,7 @@ public class DesUtil {
      * @date: 2019/5/18
      */
     public static String getStatus(String text) {
-        if (Strings.isNullOrEmpty(text) || !text.contains("*/")) {
+        if (StringUtils.isNotBlank(text) || !text.contains("*/")) {
             return null;
         }
         String[] menuList = text.split("\\*/")[0].split("@status");
@@ -239,7 +239,7 @@ public class DesUtil {
                             remark+=":"+value;
                         }
                         String filedValue=DesUtil.getFiledDesc(psiField.getDocComment());
-                        if(!Strings.isNullOrEmpty(filedValue)){
+                        if(!StringUtils.isNotBlank(filedValue)){
                             remark+="("+filedValue+")";
                         }
                     }
@@ -324,7 +324,7 @@ public class DesUtil {
      * @return
      */
     public static String camelToLine(String camelCase, String split) {
-        if(Strings.isNullOrEmpty(split)){
+        if(StringUtils.isNotBlank(split)){
             split=DASH;
         }
         Matcher matcher = humpPattern.matcher(camelCase);
